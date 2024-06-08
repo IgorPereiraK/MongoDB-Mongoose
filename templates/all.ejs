@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links</title>
+</head>
+<body>
+    
+    <h1>Links</h1>
+    <a href="/add">Adicionar Link</a>
+
+    <% for(let i=0; i < links.length; i++) { %>
+        <div id="<%=links[i]._id%>">
+            <h2><%=links[i].title%></h2>
+            <p><%=links[i].url%></p>
+            <p><%=links[i].description%></p>
+            <button onclick="deleteLink('<%=links[i]._id%>')">Delete</button>
+        </div>
+    <% } %>
+
+        <script>
+
+            function deleteLink(id) {
+                fetch('/' + id, { method: 'DELETE' }).then(res => {
+                    if (res.status == 200) {
+                        res.text().then(linkId => {
+                            console.log(linkId)
+                            document.getElementById(linkId).remove()
+                        })
+                    } else {
+                        res.json().then(error => {
+                            console.log(error.message);
+                            alert(error.message)
+                        })
+                    }
+                })
+            }
+
+        </script>
+
+</body>
+</html>
